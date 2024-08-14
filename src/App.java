@@ -9,9 +9,11 @@ public class App {
 
         window.setSize(gamePanel.width , gamePanel.height);
         window.setLocationRelativeTo(null);
+        window.setResizable(false);
 
         window.setVisible(true);
-        window.add(new SnakeGamePanel());
+        window.add(gamePanel);
         window.pack();
+        gamePanel.requestFocus();
     }
 }

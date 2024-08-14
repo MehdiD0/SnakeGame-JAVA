@@ -13,18 +13,23 @@ public class SnakeGamePanel extends JPanel implements ActionListener {
     Tile food;
     Random random;
     Timer gameLoop;
+    GameKeyListener keyListener = new GameKeyListener();
 
     public SnakeGamePanel() {
         this.setPreferredSize(new Dimension(tilePerWidth*tileSize, tilePerHeight*tileSize));
         this.setBackground(Color.GRAY);
+        setFocusable(true);
 
         random = new Random();
 
         snakeHead = new Tile(5, 5);
         placeFood();
 
-        gameLoop = new Timer(100, this);
+        this.addKeyListener(keyListener);
+
+        gameLoop = new Timer(70, this);
         gameLoop.start();
+
     }
 
 
@@ -46,9 +51,15 @@ public class SnakeGamePanel extends JPanel implements ActionListener {
         food = new Tile(random.nextInt(this.tilePerWidth), random.nextInt(this.tilePerHeight));
     }
 
+    public void movesnake() {
+        snakeHead.x += keyListener.xDirection;
+        snakeHead.y += keyListener.yDirection;
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        movesnake();
         repaint();
     }
 }
