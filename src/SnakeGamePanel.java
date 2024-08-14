@@ -23,6 +23,7 @@ public class SnakeGamePanel extends JPanel implements ActionListener {
     int score = 0;
     Image snakeHeadImage;
     Image snakeBodyImage;
+    Image foodImage;
 
     public SnakeGamePanel() throws IOException {
         this.setPreferredSize(new Dimension(tilePerWidth*tileSize, tilePerHeight*tileSize));
@@ -31,6 +32,7 @@ public class SnakeGamePanel extends JPanel implements ActionListener {
         snakeBody = new ArrayList<Tile>();
         snakeHeadImage = ImageIO.read(new File("src\\Tiles\\snake_head.png"));
         snakeBodyImage = ImageIO.read(new File("src\\Tiles\\snake_body.png"));
+        foodImage = ImageIO.read(new File("src\\Tiles\\apple.png"));
 
         random = new Random();
 
@@ -53,7 +55,13 @@ public class SnakeGamePanel extends JPanel implements ActionListener {
         //drawing the score
         g.setColor(Color.WHITE);
         g.setFont(new Font("Arial", 1, 24));
-        g.drawString("Score: "+score, 10, 30);
+        if(!gameOver) {
+            g.drawString("Score: "+score, 10, 30);
+        }
+        else {
+            g.setColor(Color.red);
+            g.drawString("GAME OVER with the score of: "+score, width/2 - 210, height/2);
+        }
 
         //drawing the snake head
         g.setColor(Color.GRAY);
@@ -68,8 +76,9 @@ public class SnakeGamePanel extends JPanel implements ActionListener {
         }
 
         //drawing the food
-        g.setColor(Color.red);
+        g.setColor(Color.GRAY);
         g.fillRect(food.x*food.size, food.y*food.size, food.size, food.size);
+        g.drawImage(foodImage, food.x*food.size, food.y*food.size, food.size, food.size, this);
     }
 
     public void placeFood() {
@@ -99,6 +108,14 @@ public class SnakeGamePanel extends JPanel implements ActionListener {
                 gameOver = true;
                 break; // Exit the loop if a collision is found
             }
+        }
+
+        //Check for collision with bounds
+        if(snakeHead.x == 0 || snakeHead.x == tilePerWidth) {
+            gameOver = true;
+        }
+        else if (snakeHead.y == 0 || snakeHead.y == tilePerHeight) {
+            gameOver = true;
         }
     
         // Move the snake's body
