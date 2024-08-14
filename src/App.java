@@ -2,11 +2,16 @@ import javax.swing.JFrame;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        JFrame frame = new JFrame("Snake game");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1200,800);
-        frame.setLocationRelativeTo(null);
+        JFrame window = new JFrame("Snake game");
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        frame.setVisible(true);
+        SnakeGamePanel gamePanel = new SnakeGamePanel();
+
+        window.setSize(gamePanel.width , gamePanel.height);
+        window.setLocationRelativeTo(null);
+
+        window.setVisible(true);
+        window.add(new SnakeGamePanel());
+        window.pack();
     }
 }
